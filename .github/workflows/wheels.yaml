@@ -43,6 +43,7 @@ jobs:
         with:
           submodules: true
       - uses: actions/setup-python@v2
+        if: matrix.arch != 'aarch64'
         with:
           python-version: 3.9
       - name: Run on architecture
@@ -52,14 +53,18 @@ jobs:
           arch: ${{ matrix.arch }}
           distro: ubuntu20.04
           run: |
-            echo Running build.sh
+            echo Running build.sh on arm
             echo ${{ matrix.arch }}
             echo $(arch)
             .github/workflows/build.sh
-            echo after run
+            echo finished running arm
       - name: Build Wheel
         if: matrix.arch != 'aarch64'
-        run: .github/workflows/build.sh
+        run: |
+          echo Running x86_64
+          .github/workflows/build.sh
+          echo Finished running x86_64
+          
       - uses: actions/upload-artifact@v2
         with:
           name: wheels

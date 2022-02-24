@@ -51,7 +51,12 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
           distro: ubuntu20.04
-          run: .github/workflows/build.sh
+          run: |
+            echo Running build.sh
+            echo ${{ matrix.arch }}
+            echo $(arch)
+            .github/workflows/build.sh
+            echo after run
       - name: Build Wheel
         if: matrix.arch != 'aarch64'
         run: .github/workflows/build.sh

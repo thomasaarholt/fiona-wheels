@@ -39,13 +39,19 @@ jobs:
       TRAVIS_OS_NAME: ${{ matrix.os-name }}
       MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
     steps:
+
+      - name: Print Target Architecture
+        run: echo ${{ matrix.arch }}
+
       - uses: actions/checkout@v2
         with:
           submodules: true
+
       - uses: actions/setup-python@v2
         if: matrix.arch != 'aarch64'
         with:
           python-version: 3.9
+
       - name: Run on architecture
         uses: uraimo/run-on-arch-action@v2.1.1
         if: matrix.arch == 'aarch64'
@@ -54,10 +60,11 @@ jobs:
           distro: ubuntu20.04
           run: |
             echo Running build.sh on arm
-            echo ${{ matrix.arch }}
-            echo $(arch)
+            echo Target arch: ${{ matrix.arch }}
+            echo Emulated arch: $(arch)
             .github/workflows/build.sh
             echo finished running arm
+
       - name: Build Wheel
         if: matrix.arch != 'aarch64'
         run: |
@@ -69,6 +76,7 @@ jobs:
         with:
           name: wheels
           path: wheelhouse/*.whl
+
   release:
     name: Create Release
     runs-on: ubuntu-latest

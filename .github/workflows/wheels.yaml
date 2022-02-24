@@ -41,32 +41,32 @@ jobs:
     steps:
 
       - name: Print Target Architecture
-        run: echo ${{ matrix.arch }}
+        run: echo ${{ matrix.platform }}
 
       - uses: actions/checkout@v2
         with:
           submodules: true
 
       - uses: actions/setup-python@v2
-        if: matrix.arch != 'aarch64'
+        if: matrix.platform != 'aarch64'
         with:
           python-version: 3.9
 
       - name: Run on architecture
         uses: uraimo/run-on-arch-action@v2.1.1
-        if: matrix.arch == 'aarch64'
+        if: matrix.platform == 'aarch64'
         with:
           arch: ${{ matrix.arch }}
           distro: ubuntu20.04
           run: |
             echo Running build.sh on arm
-            echo Target arch: ${{ matrix.arch }}
-            echo Emulated arch: $(arch)
+            echo Target platform: ${{ matrix.arch }}
+            echo Emulated platform: $(arch)
             .github/workflows/build.sh
             echo finished running arm
 
       - name: Build Wheel
-        if: matrix.arch != 'aarch64'
+        if: matrix.platform != 'aarch64'
         run: |
           echo Running x86_64
           .github/workflows/build.sh

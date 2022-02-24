@@ -56,7 +56,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2.1.1
         if: matrix.platform == 'aarch64'
         with:
-          arch: ${{ matrix.arch }}
+          arch: ${{ matrix.platform }}
           distro: ubuntu20.04
           run: |
             echo Running build.sh on arm

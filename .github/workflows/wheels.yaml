@@ -17,18 +17,18 @@ jobs:
       matrix:
         os: [ "ubuntu-20.04", "macos-latest" ]
         python: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
-        platform: [ "x86_64"]
+        platform: [ "x86_64", "aarch64" ]
         macos-target: [ "10.10" ]
         exclude:
           - os: "macos-latest"
             platform: "i686"
+          - os: "macos-latest"
+            platform: "aarch64"
         include:
           - os: "macos-latest"
             os-name: "osx"
           - os: "ubuntu-20.04"
             os-name: "focal"
-          - os: "ubuntu-20.04"
-            platform: "aarch64"
     env:
       BUILD_COMMIT: 1.8.21
       PLAT: "${{ matrix.platform }}"

@@ -15,18 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "ubuntu-20.04", "macos-latest" ]
-        python: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
-        platform: [ "x86_64", "aarch64" ]
+        os: [ "ubuntu-20.04" ]
+        python: [ "3.9" ]
+        platform: [  "aarch64" ]
         macos-target: [ "10.10" ]
-        exclude:
-          - os: "macos-latest"
-            platform: "i686"
-          - os: "macos-latest"
-            platform: "aarch64"
         include:
-          - os: "macos-latest"
-            os-name: "osx"
           - os: "ubuntu-20.04"
             os-name: "focal"
     env:
@@ -60,8 +53,11 @@ jobs:
           distro: ubuntu20.04
           run: |
             echo Running build.sh on arm
-            echo Target platform: ${{ matrix.arch }}
+            echo Target platform: ${{ matrix.platform }}
             echo Emulated platform: $(arch)
+            apt-get update -q -y
+            apt-get install -q -y python3
+            echo installed python
             .github/workflows/build.sh
             echo finished running arm
 

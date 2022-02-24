@@ -45,8 +45,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run commands on correct arch
+      - name: Run on architecture
+        uses: uraimo/run-on-arch-action@v2.1.1
         if: matrix.arch == 'aarch64'
         with:
           arch: ${{ matrix.arch }}

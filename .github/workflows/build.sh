@@ -23,10 +23,12 @@ echo "::group::Install a virtualenv"
 echo "::endgroup::"
 
 echo "::group::Build wheel"
-  echo $REPO_DIR
-  ls -la Fiona
+  echo REPO_DIR: $REPO_DIR
+  echo Running clean_code
   clean_code $REPO_DIR $BUILD_COMMIT
+  echo Finished clean_code
   build_wheel $REPO_DIR $PLAT
+  echo Built wheel
   ls -l "${GITHUB_WORKSPACE}/${WHEEL_SDIR}/"
 echo "::endgroup::"
 

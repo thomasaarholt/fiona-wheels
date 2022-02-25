@@ -34,14 +34,22 @@ jobs:
         with:
           submodules: true
 
-      - uses: actions/setup-python@v2
+      - name: Setup Python on x86_64
         if: matrix.platform != 'aarch64'
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
-      - name: Run on architecture
-        uses: uraimo/run-on-arch-action@v2.1.1
+      - name: Build Wheel
+        if: matrix.platform != 'aarch64'
+        run: |
+          echo Running x86_64
+          .github/workflows/build.sh
+          echo Finished running x86_64
+
+      - name: Build on aarch64
         if: matrix.platform == 'aarch64'
+        uses: uraimo/run-on-arch-action@v2.1.1
         with:
           arch: ${{ matrix.platform }}
           distro: ubuntu20.04
@@ -50,10 +58,10 @@ jobs:
             echo Target platform: ${{ matrix.platform }}
             echo Emulated platform: $(arch)
             apt-get update -q -y
-            apt-get install -q -y python3 python3-pip python-is-python3 git
-            echo installed python
+            apt-get install -q -y python3 python3-pip python-is-python3 git docker-ce docker-ce-cli containerd.io
+            echo Installed packages
             .github/workflows/build.sh
-            echo finished running arm
+            echo Finished running arm
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
             REPO_DIR: ${{ env.REPO_DIR }}
@@ -68,12 +76,6 @@ jobs:
             TRAVIS_OS_NAME: ${{ matrix.os-name }}
             MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
 
-      - name: Build Wheel
-        if: matrix.platform != 'aarch64'
-        run: |
-          echo Running x86_64
-          .github/workflows/build.sh
-          echo Finished running x86_64
 
       - uses: actions/upload-artifact@v2
         with:

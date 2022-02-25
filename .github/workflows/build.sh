@@ -23,6 +23,7 @@ echo "::group::Install a virtualenv"
 echo "::endgroup::"
 
 echo "::group::Build wheel"
+  echo $REPO_DIR
   ls -la Fiona
   clean_code $REPO_DIR $BUILD_COMMIT
   build_wheel $REPO_DIR $PLAT

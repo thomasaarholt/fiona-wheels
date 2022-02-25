@@ -7,7 +7,7 @@ env:
   REPO_DIR: Fiona
   WHEEL_SDIR: wheelhouse
   SETUPTOOLS_USE_DISTUTILS: stdlib
-
+  BUILD_COMMIT: 1.8.21
 jobs:
   build:
     name: ${{ matrix.python }} ${{ matrix.os-name }} ${{ matrix.platform }}
@@ -23,7 +23,7 @@ jobs:
           - os: "ubuntu-20.04"
             os-name: "focal"
     env:
-      BUILD_COMMIT: 1.8.21
+      BUILD_COMMIT: ${{ env.BUILD_COMMIT }}
       PLAT: "${{ matrix.platform }}"
       MB_PYTHON_VERSION: "${{ matrix.python }}"
     steps:
@@ -59,7 +59,7 @@ jobs:
             REPO_DIR: ${{ env.REPO_DIR }}
             WHEEL_SDIR: ${{ env.WHEEL_SDIR }}
             SETUPTOOLS_USE_DISTUTILS: ${{ env.SETUPTOOLS_USE_DISTUTILS }}
-            BUILD_COMMIT: ${{ jobs.build.env.BUILD_COMMIT }}
+            BUILD_COMMIT: ${{ env.BUILD_COMMIT }}
             PLAT: "${{ matrix.platform }}"
             MB_PYTHON_VERSION: "${{ matrix.python }}"
             MB_ML_VER: "2014"

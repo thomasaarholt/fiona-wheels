@@ -58,7 +58,8 @@ jobs:
             echo Target platform: ${{ matrix.platform }}
             echo Emulated platform: $(arch)
             apt-get update -q -y
-            apt-get install -q -y python3 python3-pip python-is-python3 git docker-ce docker-ce-cli containerd.io
+            apt-get install -q -y python3 python3-pip python-is-python3 git
+            apt install docker.io -y
             echo Installed packages
             .github/workflows/build.sh
             echo Finished running arm

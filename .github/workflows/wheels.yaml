@@ -63,6 +63,9 @@ jobs:
           # Pass some environment variables to the container
           env: | # YAML, but pipe character is necessary
             REPO_DIR: ${{ env.REPO_DIR }}
+            WHEEL_SDIR: ${{ env.WHEEL_SDIR }}
+            SETUPTOOLS_USE_DISTUTILS: ${{ env.SETUPTOOLS_USE_DISTUTILS }}
+            
       - name: Build Wheel
         if: matrix.platform != 'aarch64'
         run: |

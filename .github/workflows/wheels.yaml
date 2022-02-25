@@ -65,6 +65,17 @@ jobs:
             REPO_DIR: ${{ env.REPO_DIR }}
             WHEEL_SDIR: ${{ env.WHEEL_SDIR }}
             SETUPTOOLS_USE_DISTUTILS: ${{ env.SETUPTOOLS_USE_DISTUTILS }}
+            BUILD_COMMIT: ${{ jobs.build.env.BUILD_COMMIT }}
+            PLAT: ${{ jobs.build.env.PLAT }}
+            MB_PYTHON_VERSION: ${{ jobs.build.env.MB_PYTHON_VERSION }}
+            MB_ML_VER: ${{ jobs.build.env.MB_ML_VER }}
+            BUILD_DEPENDS: ${{ jobs.build.env.BUILD_DEPENDS }}
+            TEST_DEPENDS: ${{ jobs.build.env.TEST_DEPENDS }}
+            TRAVIS_OS_NAME: ${{ jobs.build.env.TRAVIS_OS_NAME }}
+            MACOSX_DEPLOYMENT_TARGET: ${{ jobs.build.env.MACOSX_DEPLOYMENT_TARGET }}
+            
+            
+            
             
       - name: Build Wheel
         if: matrix.platform != 'aarch64'

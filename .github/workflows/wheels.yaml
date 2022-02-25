@@ -15,10 +15,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "ubuntu-20.04" ]
-        python: [ "3.9" ]
-        platform: [  "aarch64" ]
-        macos-target: [ "10.10" ]
+        os: ["ubuntu-20.04"]
+        python: ["3.9"]
+        platform: ["aarch64"]
+        macos-target: ["10.10"]
         include:
           - os: "ubuntu-20.04"
             os-name: "focal"
@@ -26,13 +26,7 @@ jobs:
       BUILD_COMMIT: 1.8.21
       PLAT: "${{ matrix.platform }}"
       MB_PYTHON_VERSION: "${{ matrix.python }}"
-      MB_ML_VER: "2014"
-      BUILD_DEPENDS: "oldest-supported-numpy cython==0.29.26 wheel==0.34.2"
-      TEST_DEPENDS: "oldest-supported-numpy attrs==21.4.0 pytest==6.2.5 click==8.0.3 mock boto3 packaging hypothesis==4.38.1 wheel==0.34.2 pytz"
-      TRAVIS_OS_NAME: ${{ matrix.os-name }}
-      MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
     steps:
-
       - name: Print Target Architecture
         run: echo ${{ matrix.platform }}
 
@@ -66,24 +60,21 @@ jobs:
             WHEEL_SDIR: ${{ env.WHEEL_SDIR }}
             SETUPTOOLS_USE_DISTUTILS: ${{ env.SETUPTOOLS_USE_DISTUTILS }}
             BUILD_COMMIT: ${{ jobs.build.env.BUILD_COMMIT }}
-            PLAT: ${{ jobs.build.env.PLAT }}
-            MB_PYTHON_VERSION: ${{ jobs.build.env.MB_PYTHON_VERSION }}
-            MB_ML_VER: ${{ jobs.build.env.MB_ML_VER }}
-            BUILD_DEPENDS: ${{ jobs.build.env.BUILD_DEPENDS }}
-            TEST_DEPENDS: ${{ jobs.build.env.TEST_DEPENDS }}
-            TRAVIS_OS_NAME: ${{ jobs.build.env.TRAVIS_OS_NAME }}
-            MACOSX_DEPLOYMENT_TARGET: ${{ jobs.build.env.MACOSX_DEPLOYMENT_TARGET }}
-            
-            
-            
-            
+            PLAT: "${{ matrix.platform }}"
+            MB_PYTHON_VERSION: "${{ matrix.python }}"
+            MB_ML_VER: "2014"
+            BUILD_DEPENDS: "oldest-supported-numpy cython==0.29.26 wheel==0.34.2"
+            TEST_DEPENDS: "oldest-supported-numpy attrs==21.4.0 pytest==6.2.5 click==8.0.3 mock boto3 packaging hypothesis==4.38.1 wheel==0.34.2 pytz"
+            TRAVIS_OS_NAME: ${{ matrix.os-name }}
+            MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
+
       - name: Build Wheel
         if: matrix.platform != 'aarch64'
         run: |
           echo Running x86_64
           .github/workflows/build.sh
           echo Finished running x86_64
-          
+
       - uses: actions/upload-artifact@v2
         with:
           name: wheels
